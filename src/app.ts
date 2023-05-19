@@ -1,6 +1,7 @@
 // Packages imports
 import express from 'express';
 import helmet from 'helmet';
+import routes from './v1/routes';
 
 const app = express();
 
@@ -12,5 +13,14 @@ if (process.env.NODE_ENV === 'DEVELOPMENT') {
     next();
   });
 }
+
+app.use('/v1', routes);
+
+app.all('*', (_req, res) => {
+  res.status(404).json({
+    status: 'failed',
+    message: 'path not found',
+  });
+});
 
 export default app;
