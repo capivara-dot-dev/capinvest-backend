@@ -123,6 +123,7 @@ export const getNews: RequestHandler<{ stock: string }> = async (req, res) => {
 
     return;
   } catch (e) {
+    console.error(e);
     return res.status(500).json({
       status: 'error',
       message: 'internal api probleam, please try again',

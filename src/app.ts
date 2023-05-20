@@ -6,6 +6,8 @@ import routes from './v1/routes';
 const app = express();
 
 app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 if (process.env.NODE_ENV === 'DEVELOPMENT') {
   app.use((req, _res, next) => {
