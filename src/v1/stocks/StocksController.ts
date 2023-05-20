@@ -8,7 +8,7 @@ export const getStock: RequestHandler<
   { d: '1d' | '1wk' | '1mo' }
 > = async (req, res) => {
   const stock = req.params.stock;
-  let time = '1d';
+  let time: '1d' | '1wk' | '1mo' = '1d';
 
   if (req.query.d === '1wk' || req.query.d === '1mo') {
     time = req.query.d;
@@ -22,6 +22,7 @@ export const getStock: RequestHandler<
     });
     return;
   } catch (e) {
+    console.error(e);
     return res.status(500).json({
       status: 'error',
       message: 'internal api probleam, please try again',

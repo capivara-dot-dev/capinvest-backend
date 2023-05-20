@@ -1,5 +1,5 @@
 // Packages imports
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 // Files imports
 import { env } from '../../config/config';
@@ -9,7 +9,7 @@ import { RequestHandler } from 'express';
 import { MakePredBody } from '../../types';
 
 export const makePred: RequestHandler<object, object, MakePredBody> = async (req, res) => {
-  if (!req.body.instances) {
+  if (req.body.instances == undefined) {
     return res.status(400).json({
       status: 'failed',
       message: 'missing necessary information',
@@ -19,8 +19,7 @@ export const makePred: RequestHandler<object, object, MakePredBody> = async (req
   const instances = req.body.instances;
 
   try {
-    const data = await fetch(env.AI.URL as string, {
-      method: 'POST',
+    const data = await axios.post(env.AI.URL as string, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${env.AI.TOKEN}`,
@@ -28,12 +27,13 @@ export const makePred: RequestHandler<object, object, MakePredBody> = async (req
       body: JSON.stringify({ instances }),
     });
 
-    const json = await data.json();
+    const json = data.data;
     res.status(200).json({
       status: 'success',
       data: json,
     });
-  } catch (e) {
+  } catch (e: any) {
+    console.error(e.data);
     return res.status(500).json({
       status: 'error',
       message: 'internal api problem, please try again',
