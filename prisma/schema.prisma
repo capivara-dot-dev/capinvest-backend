@@ -33,6 +33,7 @@ model Prediction {
   positive Float
   neutral  Float
   negative Float
+  score    Float
   news     News  @relation(fields: [newsId], references: [id])
   newsId   Int   @unique
 
