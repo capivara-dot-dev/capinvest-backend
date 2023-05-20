@@ -10,6 +10,10 @@ if (process.env.NODE_ENV === 'DEVELOPMENT') {
 export const env = {
   NODE_ENV: process.env.NODE_ENV,
   PORT: process.env.PORT,
+  AI: {
+    URL: process.env.AI_ENDPOINT,
+    TOKEN: process.env.AI_TOKEN,
+  },
 };
 
 export const prisma = new PrismaClient();
