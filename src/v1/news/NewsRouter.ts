@@ -3,6 +3,6 @@ import { getNews } from './NewsController';
 
 const router = Router();
 
-router.get('/:stock', getNews);
+router.use('/:stock', getNews);
 
 export default router;

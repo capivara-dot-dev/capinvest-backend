@@ -12,7 +12,8 @@ COPY . .
 
 RUN yarn compile \
   && yarn install --production --ignore-scripts --prefer-offline \
-  && yarn cache clean
+  && yarn cache clean \
+  && yarn prisma generate
 
 FROM node:18.16-slim
 
