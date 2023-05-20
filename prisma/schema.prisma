@@ -8,17 +8,34 @@ datasource db {
 }
 
 model News {
-  id           Int      @id @default(autoincrement())
-  link         String
-  title        String
-  subtitle     String
-  tags    String[]
-  titlePred    Int
-  subtitlePred Int
-  positive     Float
-  negative     Float
-  neutral      Float
-  time         DateTime
+  id         Int         @id @default(autoincrement())
+  title      String
+  subtitle   String
+  tags       String[]
+  date       DateTime
+  author     String[]
+  text       String[]
+  prediction Prediction?
 
   @@map("news")
+}
+
+model Link {
+  id   Int    @id @default(autoincrement())
+  link String
+
+  @@map("link")
+}
+
+model Prediction {
+  id       Int   @id @default(autoincrement())
+  total    Int
+  positive Float
+  neutral  Float
+  negative Float
+  score    Float
+  news     News  @relation(fields: [newsId], references: [id])
+  newsId   Int   @unique
+
+  @@map("prediction")
 }

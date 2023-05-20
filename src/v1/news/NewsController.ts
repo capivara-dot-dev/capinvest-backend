@@ -15,12 +15,18 @@ export const getNews: RequestHandler<{ stock: string }> = async (req, res) => {
   }
 
   if (stock == 'IBOV') {
-    const data = prisma.news.findMany({
+    const data = prisma.prediction.findMany({
       select: {
-        time: true,
         positive: true,
         negative: true,
         neutral: true,
+        total: true,
+        score: true,
+        news: {
+          select: {
+            date: true,
+          },
+        },
       },
     });
     res.status(200).json({
@@ -30,17 +36,25 @@ export const getNews: RequestHandler<{ stock: string }> = async (req, res) => {
     return;
   }
 
-  const data = prisma.news.findMany({
+  const data = prisma.prediction.findMany({
     where: {
-      tags: {
-        has: 'Petrobras',
+      news: {
+        tags: {
+          has: 'Petrobras',
+        },
       },
     },
     select: {
-      time: true,
       positive: true,
       negative: true,
       neutral: true,
+      total: true,
+      score: true,
+      news: {
+        select: {
+          date: true,
+        },
+      },
     },
   });
 
